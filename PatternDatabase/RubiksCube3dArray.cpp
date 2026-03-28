@@ -125,6 +125,7 @@ public:
                 }
             }
         }
+        return true;
     }
 
 
@@ -387,6 +388,7 @@ public:
                 }
             }
         }
+        return *this;
     }
 
 };

@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+#include "../bits/stdc++.h"
 #include "../PatternDatabase/GenericRubicksCube.h"
 
 #ifndef RUBIKS_CUBE_SOLVER_BFSSOLVER_H
@@ -49,7 +49,7 @@ public:
     }
 
 //    Performs BFS and returns the vector of moves done to solve the cube
-    vector<RubiksCube::MOVE> solve() {
+    vector<GenericRubicksCube::MOVE> solve() {
         T solved_cube = bfs();
         assert(solved_cube.isSolved());
         T curr_cube = solved_cube;

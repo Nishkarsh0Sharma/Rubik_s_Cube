@@ -2,7 +2,7 @@
 #ifndef RUBIKS_CUBE_SOLVER_NIBBLEARRAY_H
 #define RUBIKS_CUBE_SOLVER_NIBBLEARRAY_H
 
-#include <bits/stdc++.h>
+#include "../../bits/stdc++.h"
 
 using namespace std;
 

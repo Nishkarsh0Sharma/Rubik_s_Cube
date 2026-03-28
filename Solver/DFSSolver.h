@@ -2,7 +2,7 @@
 // Created by Nishkarsh Sharma on 12-01-2026.
 //
 
-#include<bits/stdc++.h>
+#include "../bits/stdc++.h"
 #include "../PatternDatabase/GenericRubicksCube.h"
 
 #ifndef RUBIK_S_CUBE_DFSSOLVER_H
@@ -34,13 +34,14 @@ private:
 public:
     T rubiksCube;
 
-    DFSSolver( T_rubiksCube , int _max_search_depth = 0 ) {
+    DFSSolver(T _rubiksCube, int _max_search_depth = 0) {
         rubiksCube = _rubiksCube;
         max_search_depth = _max_search_depth;
     }
 
     vector<GenericRubicksCube::MOVE> solve() {
-        dfs(i);
+        moves.clear();
+        dfs(0);
         return moves;
     }
 };

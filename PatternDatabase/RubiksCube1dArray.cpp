@@ -113,7 +113,7 @@ public:
         }
     }
 
-    void setColor(FACE face, int row, int col, COLOR color) override {
+    void setColor(FACE face, unsigned row, unsigned col, COLOR color) override {
         cube[getIndex((int)face, (int)row, (int)col)] = getColorLetter(color);
     }
 

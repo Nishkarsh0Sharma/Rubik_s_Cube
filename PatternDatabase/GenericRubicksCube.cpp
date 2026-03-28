@@ -23,6 +23,7 @@ char GenericRubicksCube::getColorLetter(COLOR color) {
         case COLOR::ORANGE:
             return 'O';
     }
+    throw logic_error("Unknown cube color");
 }
 
 
@@ -68,6 +69,7 @@ string GenericRubicksCube::getMove(MOVE ind) {
         case MOVE::B2:
             return "B2";
     }
+    throw logic_error("Unknown cube move");
 }
 
 /*
@@ -112,6 +114,7 @@ GenericRubicksCube &GenericRubicksCube::move(MOVE ind) {
         case MOVE::B2:
             return this->b2();
     }
+    throw logic_error("Unknown cube move");
 }
 
 /*
@@ -156,6 +159,7 @@ GenericRubicksCube &GenericRubicksCube::invert(MOVE ind) {
         case MOVE::B2:
             return this->b2();
     }
+    throw logic_error("Unknown cube move");
 }
 
 void GenericRubicksCube::print() const {
@@ -208,10 +212,12 @@ void GenericRubicksCube::print() const {
 
 vector<GenericRubicksCube::MOVE> GenericRubicksCube::randomShuffleCube(unsigned int times) {
     vector<MOVE> moves_performed;
-    srand(time(0));
+    static mt19937 rng(static_cast<uint32_t>(
+            chrono::steady_clock::now().time_since_epoch().count()));
+    uniform_int_distribution<int> pick_move(0, 17);
 
     for (unsigned int i=0; i<times; i++) {
-        unsigned int selectMove = (rand()%18);
+        unsigned int selectMove = static_cast<unsigned int>(pick_move(rng));
         moves_performed.push_back(static_cast<MOVE>(selectMove));
         this->move(static_cast<MOVE>(selectMove));
     }
@@ -341,5 +347,4 @@ uint8_t GenericRubicksCube::getCornerOrientation(uint8_t ind) const {
         return 2;
     } else return 0;
 }
-
 
