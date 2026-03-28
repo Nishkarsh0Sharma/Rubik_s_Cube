@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+#include "../bits/stdc++.h"
 #include "../PatternDatabase/GenericRubicksCube.h"
 #include "../PatternDatabase/Patterns/CornerPatternDatabase.h"
 
@@ -36,6 +36,29 @@ private:
         visited.clear();
     }
 
+    static string resolveCornerDbPath(const string &pathHint) {
+        namespace fs = std::filesystem;
+
+        vector<fs::path> candidates;
+        fs::path raw(pathHint);
+        if (!pathHint.empty()) {
+            candidates.push_back(raw);
+            if (fs::is_directory(raw)) {
+                candidates.emplace_back(raw / "cornerDepth5V1.txt");
+            }
+        }
+
+        candidates.emplace_back("Databases/cornerDepth5V1.txt");
+
+        for (const auto &candidate: candidates) {
+            if (fs::exists(candidate) && fs::is_regular_file(candidate)) {
+                return candidate.string();
+            }
+        }
+
+        throw runtime_error("Corner database file was not found. Expected Databases/cornerDepth5V1.txt or a valid custom path.");
+    }
+
 // returns {solved cube, bound}: if the cube was solved
 // returns {rubiksCube, next_bound}, if the cube was not solved
     pair<T, int> IDAstar(int bound) {
@@ -43,7 +66,7 @@ private:
         priority_queue<pair<Node, int>, vector<pair<Node, int>>, compareCube> pq;
         Node start = Node(rubiksCube, 0, cornerDB.getNumMoves(rubiksCube));
         pq.push(make_pair(start, 0));
-        int next_bound = 100;
+        int next_bound = INT_MAX;
         while (!pq.empty()) {
             auto p = pq.top();
             Node node = p.first;
@@ -52,7 +75,9 @@ private:
             if (visited[node.cube]) continue;
 
             visited[node.cube] = true;
-            move_done[node.cube] = GenericRubicksCube::MOVE(p.second);
+            if (node.depth > 0) {
+                move_done[node.cube] = GenericRubicksCube::MOVE(p.second);
+            }
 
             if (node.cube.isSolved()) return make_pair(node.cube, bound);
             node.depth++;
@@ -79,11 +104,14 @@ public:
 
     IDAstarSolver(T _rubiksCube, string fileName) {
         rubiksCube = _rubiksCube;
-        cornerDB.fromFile(fileName);
+        auto dbPath = resolveCornerDbPath(fileName);
+        if (!cornerDB.fromFile(dbPath)) {
+            throw runtime_error("Failed to load corner pattern database from " + dbPath);
+        }
     }
 
     vector<GenericRubicksCube::MOVE> solve() {
-        int bound = 1;
+        int bound = cornerDB.getNumMoves(rubiksCube);
         auto p = IDAstar(bound);
         while (p.second != bound) {
             resetStructure();

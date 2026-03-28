@@ -8,7 +8,7 @@
 using namespace std;
 
 class GenericRubicksCube {
-    public:
+public:
 
     enum class FACE {
         UP,
@@ -45,6 +45,12 @@ class GenericRubicksCube {
      * @param Face, row, and column index
      */
     virtual COLOR getColor( FACE face , unsigned row , unsigned col ) const = 0;
+
+    /*
+     * Update the color at (row, col) on a face.
+     * This is mainly useful in tests or when building a state by hand.
+     */
+    virtual void setColor(FACE face, unsigned row, unsigned col, COLOR color) = 0;
 
     /*
      * Return the first letter of the given COLOR
@@ -175,6 +181,9 @@ class GenericRubicksCube {
     uint8_t getCornerOrientation(uint8_t ind) const;
 
 };
+
+using GenericRubiksCube = GenericRubicksCube;
+using RubiksCube = GenericRubicksCube;
 
 
 #endif //RUBIK_S_CUBE_GENERICRUBICKSCUBE_H

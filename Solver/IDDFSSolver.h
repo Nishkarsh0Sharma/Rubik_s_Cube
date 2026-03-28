@@ -2,7 +2,7 @@
 // Created by Nishkarsh Sharma on 12-01-2026.
 //
 
-#include<bits/stdc++.h>
+#include "../bits/stdc++.h"
 #include "../PatternDatabase/GenericRubicksCube.h"
 #include "DFSSolver.h"
 

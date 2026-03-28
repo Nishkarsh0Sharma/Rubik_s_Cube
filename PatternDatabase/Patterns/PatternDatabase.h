@@ -4,7 +4,7 @@
 
 #include "../GenericRubicksCube.h"
 #include "NibbleArray.h"
-#include "bits/stdc++.h"
+#include "../../bits/stdc++.h"
 
 using namespace std;
 
@@ -21,13 +21,13 @@ public:
 //    Testing for init_val
     PatternDatabase(const size_t size, uint8_t init_val);
 
-    virtual uint32_t getDatabaseIndex(const RubiksCube &cube) const = 0;
+    virtual uint32_t getDatabaseIndex(const GenericRubicksCube &cube) const = 0;
 
-    virtual bool setNumMoves(const RubiksCube &cube, const uint8_t numMoves);
+    virtual bool setNumMoves(const GenericRubicksCube &cube, const uint8_t numMoves);
 
     virtual bool setNumMoves(const uint32_t ind, const uint8_t numMoves);
 
-    virtual uint8_t getNumMoves(const RubiksCube &cube) const;
+    virtual uint8_t getNumMoves(const GenericRubicksCube &cube) const;
 
     virtual uint8_t getNumMoves(const uint32_t ind) const;
 
